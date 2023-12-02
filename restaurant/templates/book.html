@@ -1,0 +1,100 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <title>Document</title>
+    <meta name="description" content="A brief description" />
+    <meta
+      name="author"
+      content="Based in Chicago, Illinois, Little Lemon is a family owned Mediterranean restaurant, focused on traditional recipes served with a modern twist."
+    />
+
+    <!-- Load favicon -->
+    <link
+      rel="shortcut icon"
+      type="image/png"
+      href="{% static 'img/favicon.ico' %}"
+    />
+
+    <!-- Include your CSS files here -->
+    <link
+      rel="preload"
+      as="style"
+      href="{% static 'css/style.css' %}"
+      onload="this.rel = 'stylesheet'"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Karla&family=Markazi+Text:wght@500&display=swap"
+      rel="stylesheet"
+    />
+</head>
+<body>
+    <header>
+        <img src="{% static 'img/logo.png' %}" />
+    </header>
+    <nav>
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="{% url 'menu' %}">Menu</a></li>
+            <li><a href="{% url 'book' %}">Book</a></li>
+        </ul>
+    </nav>
+    <section class="book_body">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn" id="bookingbtn"> confirm booking </button>
+        </form>
+    </section>
+    <footer>
+        <article>
+            <img src="{% static 'img/logo_footer.png' %}" />
+        </article>
+        <article>
+            <p>Copyright {{ current_year }} Little Lemon</p>
+        </article>
+    </footer>
+    <script>
+        $(document).ready(function () {
+            $('.date').attr('type', 'date')
+        });
+        $('#bookingbtn').click(function (e){
+            e.preventDefault();
+            const csrftoken = $('[name="csrfmiddlewaretoken"]').val();
+            const name = $('#id_name').val();
+            const date = $('#id_date').val();
+            const slots = $('#id_slots').val();
+            dateInserted = new Date(date)
+            todayDate = new Date()
+            if (todayDate > dateInserted) {
+                alert('not valid date');
+                return;
+            }
+            data = {
+                'name': name,
+                'date': date,
+                'slots': slots
+            };
+            fetch("{% url 'book' %}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrftoken
+                },
+                body: JSON.stringify(data),
+            }).then(res => res.text()).then(data => {
+                if (data === 'success') {
+                    alert('booking is confirmed.')
+                }
+            })
+            })
+    </script>
+</body>
+</html>
