@@ -33,4 +33,5 @@ $ Clone the repository: `git clone https://github.com/AhmedElSaeedTalat/Little_L
 $ Run the app: `python3 -m manage.py runserver`
   
 ## Author:
-Ahmed Talat [Github](https://github.com/AhmedElSaeedTalat) | [twitter](https://twitter.com/AhmedElsaeed105)
+Bryan Chavez
+
