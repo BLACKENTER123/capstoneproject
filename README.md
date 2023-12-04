@@ -27,11 +27,7 @@ Menu, Booking, Cart and Orders. different methods are implemented in the API to 
 * Python: Version 3.11.0 
 * MYSQL: Version  8.0.35
 * HTML, CSS, JS, JQUERY
-
-## Installation
-$ Clone the repository: `git clone https://github.com/AhmedElSaeedTalat/Little_Lemon_capstone.git`  
-$ Run the app: `python3 -m manage.py runserver`
-  
+*   
 ## Author:
 Bryan Chavez
 
